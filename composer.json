@@ -1,0 +1,19 @@
+{
+    "name": "mlaxwong/paw-user",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mlax Wong",
+            "email": "mlaxwong@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "paw\\user\\": "src/"
+        }
+    },
+    "require": {
+        "mlaxwong/paw": "^1.1"
+    }
+}
