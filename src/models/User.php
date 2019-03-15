@@ -5,15 +5,21 @@ use Yii;
 use yii\db\ActiveRecord;
 use paw\user\web\IdentityInterface;
 use paw\behaviors\TimestampBehavior;
+use yii\behaviors\AttributeBehavior;
 
 class User extends ActiveRecord implements IdentityInterface
 {
-    public $password;
-
     public function behaviors()
     {
         return [
             TimestampBehavior::class,
+            'auth_key' => [
+                'class' => AttributeBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'auth_key'
+                ],
+                'value' => Yii::$app->getSecurity()->generateRandomString()
+            ],
         ];
     }
 
@@ -30,6 +36,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['username', 'email'], 'required', 'on' => 'default'],
             [['email'], 'email'],
             [['username', 'password_hash', 'email'], 'string', 'min' => 1, 'max' => 255],
+            [['first_name', 'last_name'], 'string'],
             [['auth_key'], 'string', 'max' => 32],
         ];
     }
