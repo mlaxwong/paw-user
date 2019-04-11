@@ -9,6 +9,8 @@ use yii\behaviors\AttributeBehavior;
 
 class User extends ActiveRecord implements IdentityInterface
 {
+    use \paw\user\base\CanTrait;
+
     public function behaviors()
     {
         return [

@@ -10,12 +10,14 @@ class LoginForm extends Model
     public $username;
     public $password;
 
+    public $access = [];
+
     public function rules()
     {
         return [
             [['username', 'password'], 'required'],
-            [['password'], 'validatePassword'],
-
+            [['password'], 'validatePassword', 'skipOnError' => true],
+            [['password'], 'validateAccess', 'skipOnError' => true],
         ];
     }
 
@@ -24,7 +26,28 @@ class LoginForm extends Model
         if (!$this->hasErrors()) 
         {
             $user = $this->getUser();
-            if (!$user || !$user->validatePassword($this->password)) $this->addError($attribute, Yii::t('app', 'Incorrect username or password.'));
+            if (!$user || !$user->validatePassword($this->password)) {
+                $this->addError($attribute, Yii::t('app', 'Incorrect username or password'));
+            }
+        }
+    }
+
+    public function validateAccess($attribute, $params)
+    {
+        if (!$this->hasErrors() && $this->access) 
+        {
+            $user = $this->getUser();
+            if ($user) 
+            {
+                if (!$user->can($this->access)) 
+                {
+                    if (YII_DEBUG) {
+                        $this->addError($attribute, Yii::t('app', 'No access'));
+                    } else {
+                        $this->addError($attribute, Yii::t('app', 'Incorrect username or password'));
+                    }
+                }
+            }
         }
     }
 
