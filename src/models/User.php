@@ -1,11 +1,11 @@
 <?php
 namespace paw\user\models;
 
-use Yii;
-use yii\db\ActiveRecord;
-use paw\user\web\IdentityInterface;
 use paw\behaviors\TimestampBehavior;
+use paw\user\web\IdentityInterface;
+use Yii;
 use yii\behaviors\AttributeBehavior;
+use yii\db\ActiveRecord;
 
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -18,9 +18,9 @@ class User extends ActiveRecord implements IdentityInterface
             'auth_key' => [
                 'class' => AttributeBehavior::class,
                 'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'auth_key'
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'auth_key',
                 ],
-                'value' => Yii::$app->getSecurity()->generateRandomString()
+                'value' => Yii::$app->getSecurity()->generateRandomString(),
             ],
         ];
     }
@@ -33,7 +33,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return
-        [
+            [
             [['username'], 'unique'],
             [['username', 'email'], 'required', 'on' => 'default'],
             [['email'], 'email'],
@@ -57,7 +57,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public static function findIdentityByAccessToken($token, $type = null)
     {
-		return static::findOne(['auth_key' => $token]);
+        return static::findOne(['auth_key' => $token]);
     }
 
     public function getId()
@@ -93,5 +93,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function getLoggedAtColumn()
     {
         return 'logged_at';
+    }
+
+    public function getProfile()
+    {
+        return $this->hasOne(Profile::class, ['user_id' => 'id'])->andOnCondition(['is_main' => true]);
     }
 }
