@@ -11,6 +11,10 @@ class User extends ActiveRecord implements IdentityInterface
 {
     use \paw\user\base\CanTrait;
 
+    const STATUS_ACTIVE = 'active';
+    const STATUS_BANNED = 'banned';
+    const STATUS_INAVTIVE = 'inactive';
+
     public function behaviors()
     {
         return [
@@ -40,6 +44,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['username', 'password_hash', 'email'], 'string', 'min' => 1, 'max' => 255],
             [['first_name', 'last_name'], 'string'],
             [['auth_key'], 'string', 'max' => 32],
+            [['email_verified'], 'boolean'],
         ];
     }
 
@@ -98,5 +103,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function getProfile()
     {
         return $this->hasOne(Profile::class, ['user_id' => 'id'])->andOnCondition(['is_main' => true]);
+    }
+
+    public function setEmailVerified($email = null)
+    {
+        $this->email_verified = true;
+        return $this->save();
     }
 }

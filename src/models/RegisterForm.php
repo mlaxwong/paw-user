@@ -1,10 +1,9 @@
 <?php
 namespace paw\user\models;
 
+use paw\user\models\User;
 use Yii;
 use yii\base\Model;
-use yii\helpers\ArrayHelper;
-use paw\user\models\User;
 
 class RegisterForm extends Model
 {
@@ -16,6 +15,8 @@ class RegisterForm extends Model
     public $email;
 
     public $roles = [];
+
+    public $emailVerification = true;
 
     public function rules()
     {
@@ -33,8 +34,10 @@ class RegisterForm extends Model
 
     public function submit()
     {
-        if (!$this->validate()) return false;
-        
+        if (!$this->validate()) {
+            return false;
+        }
+
         $model = new User([
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
@@ -43,19 +46,21 @@ class RegisterForm extends Model
             'email' => $this->email,
         ]);
 
-        if (!$model->save())
-        {
-            if (YII_DEBUG) throw new \Exception(print_r($model->errors, 1));
+        if (!$model->save()) {
+            if (YII_DEBUG) {
+                throw new \Exception(print_r($model->errors, 1));
+            }
+
             return fasle;
         }
 
         // roles
         $auth = Yii::$app->authManager;
-        foreach($this->roles as $roleName) {
+        foreach ($this->roles as $roleName) {
             $role = $auth->getRole($roleName);
             $auth->assign($role, $model->id);
         }
 
-        return $model; 
+        return $model;
     }
 }

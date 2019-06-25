@@ -7,8 +7,7 @@ class User extends \yii\web\User
     {
         if (is_array($permissionName)) {
             $can = true;
-            foreach ($permissionName as $name) 
-            {
+            foreach ($permissionName as $name) {
                 if (!parent::can($permissionName, $params, $allowCaching)) {
                     $can = false;
                     break;
@@ -18,5 +17,13 @@ class User extends \yii\web\User
         } else {
             return parent::can($permissionName, $params, $allowCaching);
         }
+    }
+
+    public function setEmailVerified($email = null)
+    {
+        if (!$this->getIsGuest()) {
+            return $this->identity->setEmailVerified($email = null);
+        }
+        return false;
     }
 }
