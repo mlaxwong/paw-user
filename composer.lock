@@ -329,16 +329,16 @@
         },
         {
             "name": "mlaxwong/paw",
-            "version": "1.1.18",
+            "version": "1.1.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlaxwong/paw.git",
-                "reference": "2addc28daa67613579ba7883d835c20fc531ecfa"
+                "reference": "e92a8a68908952a698cf39813e42791c76670402"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlaxwong/paw/zipball/2addc28daa67613579ba7883d835c20fc531ecfa",
-                "reference": "2addc28daa67613579ba7883d835c20fc531ecfa",
+                "url": "https://api.github.com/repos/mlaxwong/paw/zipball/e92a8a68908952a698cf39813e42791c76670402",
+                "reference": "e92a8a68908952a698cf39813e42791c76670402",
                 "shasum": ""
             },
             "require": {
@@ -372,7 +372,7 @@
                 }
             ],
             "description": "Paw Yii2 Framework",
-            "time": "2019-06-25T14:25:10+00:00"
+            "time": "2019-08-04T06:04:43+00:00"
         },
         {
             "name": "nterms/yii2-mailqueue",

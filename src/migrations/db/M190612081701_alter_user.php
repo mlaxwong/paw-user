@@ -12,6 +12,8 @@ class M190612081701_alter_user extends Migration
         $this->addColumn('{{%user}}', 'deleted_by', $this->integer()->unsigned()->defaultValue(null)->after('updated_at'));
         $this->addColumn('{{%user}}', 'is_deleted', $this->boolean()->defaultValue(false)->after('updated_at'));
         $this->addForeignKey('fk_user_deleted_by', '{{%user}}', 'deleted_by', '{{%user}}', 'id', 'cascade', 'cascade');
+
+        $this->update('{{%user}}', ['email_verified' => true], ['username' => 'developer']);
     }
 
     public function safeDown()
