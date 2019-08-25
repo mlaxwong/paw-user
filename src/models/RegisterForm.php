@@ -13,10 +13,13 @@ class RegisterForm extends Model
     public $password;
     public $password_confirm;
     public $email;
+    public $agree;
 
     public $roles = [];
 
     public $emailVerification = true;
+
+    public $enableAgree = false;
 
     public function rules()
     {
@@ -29,6 +32,10 @@ class RegisterForm extends Model
             [['password'], 'string', 'min' => 6],
             [['password_confirm'], 'compare', 'compareAttribute' => 'password'],
             [['last_name'], 'string'],
+            [['agree'], 'boolean'],
+            [['agree'], 'required', 'requiredValue' => '1', 'when' => function ($model) {
+                return $this->enableAgree;
+            }],
         ];
     }
 
