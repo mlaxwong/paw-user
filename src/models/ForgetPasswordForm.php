@@ -53,8 +53,11 @@ class ForgetPasswordForm extends Model
 
             $user = $this->user;
             $user->email = $model->email;
-            if (!$user->save()) {
+            if (!$user->save(false)) {
                 $transaction->rollBack();
+                if (YII_DEBUG) {
+                    throw new \Exception(print_r($user->errors, 1));
+                }
                 return false;
             }
 
