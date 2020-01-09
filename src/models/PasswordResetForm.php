@@ -34,8 +34,11 @@ class PasswordResetForm extends Model
             $user = $forgetPasswordVerificationModel->user;
             $user->password = $this->password;
 
-            if (!$user->save()) {
+            if (!$user->save(false)) {
                 $transaction->rollBack();
+                if (YII_DEBUG) {
+                    throw new \Exception(print_r($user->errors, 1));
+                }
                 return false;
             }
 
@@ -45,6 +48,9 @@ class PasswordResetForm extends Model
             return true;
         } catch (\Exception $ex) {
             $transaction->rollBack();
+            if (YII_DEBUG) {
+                throw $ex;
+            }
             return false;
         }
     }
