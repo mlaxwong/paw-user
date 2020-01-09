@@ -39,7 +39,15 @@ class LoginForm extends Model
             $user = $this->getUser();
             if ($user) 
             {
-                if (!$user->can($this->access)) 
+                $hasAccess = false;
+                foreach ($this->access as $access) {
+                    if ($user->can($access)) {
+                        $hasAccess = true;
+                        break;
+                    }
+                }
+                
+                if (!$hasAccess) 
                 {
                     if (YII_DEBUG) {
                         $this->addError($attribute, Yii::t('app', 'No access'));
