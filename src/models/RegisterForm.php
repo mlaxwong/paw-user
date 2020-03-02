@@ -29,13 +29,13 @@ class RegisterForm extends Model
             [['username'], 'unique', 'targetAttribute' => ['username'], 'targetClass' => User::class],
             [['email'], 'email'],
             [['email'], 'unique', 'targetAttribute' => ['email'], 'targetClass' => User::class],
-            [['password'], 'string', 'min' => 6],
+            // [['password'], 'string', 'min' => 6],
             [['password_confirm'], 'compare', 'compareAttribute' => 'password'],
             [['last_name'], 'string'],
             [['agree'], 'boolean'],
             [['agree'], 'required', 'requiredValue' => '1', 'when' => function ($model) {
                 return $this->enableAgree;
-            }],
+            }, 'message' => Yii::t('app', 'Your must agree to our term and condition')],
         ];
     }
 
