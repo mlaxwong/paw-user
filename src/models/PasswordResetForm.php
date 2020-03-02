@@ -17,7 +17,7 @@ class PasswordResetForm extends Model
     {
         return [
             [['password', 'password_confirm'], 'required'],
-            [['password'], 'string', 'min' => 6],
+            // [['password'], 'string', 'min' => 6],
             [['password_confirm'], 'compare', 'compareAttribute' => 'password'],
         ];
     }
